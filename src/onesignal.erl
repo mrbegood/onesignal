@@ -1,7 +1,7 @@
 -module('onesignal').
 
 %% API exports
--export([create_player/1, create_player/2]).
+%% -export([create_player/1, create_player/2]).
 -export([send_notification/2]).
 
 -define(API_BASE, <<"https://onesignal.com/api/v1">>).
@@ -10,19 +10,19 @@
 %% API functions
 %%====================================================================
 
-create_player(DeviceType, Params) when is_binary(DeviceType), is_map(Params) ->
-    Params2 = Params#{device_type => device_type_to_code(DeviceType)},
-    create_player(Params2).
+%%create_player(DeviceType, Params) when is_binary(DeviceType), is_map(Params) ->
+%%    Params2 = Params#{device_type => device_type_to_code(DeviceType)},
+%%    create_player(Params2).
 
-create_player(Params) when is_map(Params) ->
-    case request(post, <<"/players">>, Params) of
-        {ok, 200, _RespHeaders, Ref} ->
-            {ok, JSON} = hackney:body(Ref),
-            {ok, jsx:decode(JSON, [return_maps])};
-        {ok, StatusCode, _RespHeaders, Ref} ->
-            {ok, ErrorBody} = hackney:body(Ref),
-            {error, StatusCode, ErrorBody}
-    end.
+%%create_player(Params) when is_map(Params) ->
+%%    case request(post, <<"/players">>, Params) of
+%%        {ok, 200, _RespHeaders, Ref} ->
+%%            {ok, JSON} = hackney:body(Ref),
+%%            {ok, jsx:decode(JSON, [return_maps])};
+%%        {ok, StatusCode, _RespHeaders, Ref} ->
+%%            {ok, ErrorBody} = hackney:body(Ref),
+%%            {error, StatusCode, ErrorBody}
+%%    end.
 
 send_notification(ApiKey, Params) ->
     case request(post, <<"/notifications">>, ApiKey, Params) of
